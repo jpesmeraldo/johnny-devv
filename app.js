@@ -20,8 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const hitlApproveBtn = document.getElementById('hitl-approve-btn');
   const hitlRejectBtn = document.getElementById('hitl-reject-btn');
 
-  // Variável para controlar o estado da digitação
+  // Elementos de Ação do Editor (Cópia e Download)
+  const copyBtn = document.getElementById('copy-btn');
+  const downloadBtn = document.getElementById('download-btn');
+
+  // Variáveis de Controle de Estado
   let isTypingCode = false;
+  let activeMock = null; // Armazena a solução de código ativa no editor
 
   // 1. CARREGAMENTO E VALIDAÇÃO DO DAILY BRIEFING DE IA (JD Briefing)
   // Limite rígido: 300 caracteres de texto visível
@@ -204,6 +209,11 @@ echo "✨ Tudo pronto. Código compilado."`
     currentFileName.textContent = mock.fileName;
     langBadge.textContent = mock.badge;
 
+    // Desativa botões de ação enquanto digita nova solução
+    copyBtn.classList.remove('active');
+    downloadBtn.classList.remove('active');
+    activeMock = null;
+
     const fullCode = mock.code;
     let currentLength = 0;
     
@@ -216,6 +226,12 @@ echo "✨ Tudo pronto. Código compilado."`
         clearInterval(typingInterval);
         codeBlock.innerHTML = highlightCode(fullCode, mock.badge.toLowerCase());
         isTypingCode = false;
+        
+        // Habilita e exibe os botões de copiar e baixar
+        activeMock = mock;
+        copyBtn.classList.add('active');
+        downloadBtn.classList.add('active');
+        
         if (callback) callback();
       } else {
         const partialCode = fullCode.substring(0, currentLength);
@@ -374,6 +390,79 @@ echo "✨ Tudo pronto. Código compilado."`
       });
 
     }, 600);
+  });
+
+  // 9. LÓGICA DE INTERAÇÃO DOS BOTÕES DE COPIAR E BAIXAR
+  copyBtn.addEventListener('click', () => {
+    if (!activeMock) return;
+
+    navigator.clipboard.writeText(activeMock.code)
+      .then(() => {
+        // Feedback visual premium ao usuário
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = "COPIADO! ⚡";
+        copyBtn.style.borderColor = "var(--accent-green)";
+        copyBtn.style.color = "var(--accent-green)";
+
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.style.borderColor = "";
+          copyBtn.style.color = "";
+        }, 1500);
+      })
+      .catch(err => {
+        console.error('Erro ao copiar código: ', err);
+      });
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (!activeMock) return;
+
+    // Constrói o conteúdo Markdown limpo e estilizado
+    const markdownContent = `# Johnny Devv (JD) - Solução de Código
+
+**Arquivo:** \`${activeMock.fileName}\`
+**Linguagem:** ${activeMock.badge}
+
+## Descrição da Solução
+${activeMock.desc}
+
+## Código Fonte
+\`\`\`${activeMock.badge.toLowerCase()}
+${activeMock.code}
+\`\`\`
+
+---
+*Gerado automaticamente pelo agente Johnny Devv (JD) no Dashboard de Operações.*`;
+
+    // Cria o Blob e dispara o download do arquivo .md
+    const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    // Define o nome do arquivo com a extensão .md a partir do nome original
+    const baseName = activeMock.fileName.substring(0, activeMock.fileName.lastIndexOf('.')) || activeMock.fileName;
+    link.download = `${baseName}_jd_solucao.md`;
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // Limpeza
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    // Feedback visual premium ao usuário
+    const originalText = downloadBtn.textContent;
+    downloadBtn.textContent = "BAIXADO! 📂";
+    downloadBtn.style.borderColor = "var(--accent-green)";
+    downloadBtn.style.color = "var(--accent-green)";
+
+    setTimeout(() => {
+      downloadBtn.textContent = originalText;
+      downloadBtn.style.borderColor = "";
+      downloadBtn.style.color = "";
+    }, 1500);
   });
 
   // Inicializa o Dashboard
