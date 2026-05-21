@@ -1,0 +1,724 @@
+/* ==========================================================================
+   SISTEMA DE DESIGN: JOHNNY DEVV (JD)
+   Estilo: Flat 2D Minimalista, Limpo, Cyber-Neobrutalismo Moderno
+   ========================================================================== */
+
+/* Variáveis e Paleta de Cores HSL Curada */
+:root {
+  /* Cores de Fundo (Slate Escuro e Profundo) */
+  --bg-main: hsl(222, 22%, 8%);
+  --bg-card: hsl(222, 20%, 12%);
+  --bg-input: hsl(222, 24%, 15%);
+  --bg-border: hsl(222, 16%, 22%);
+
+  /* Cores de Texto */
+  --text-primary: hsl(0, 0%, 96%);
+  --text-secondary: hsl(222, 16%, 70%);
+  --text-muted: hsl(222, 12%, 48%);
+
+  /* Destaques de Cores Planas (Flat/Neo-Brutalism) */
+  --accent-cyan: hsl(180, 100%, 45%);
+  --accent-cyan-dim: hsl(180, 100%, 25%);
+  --accent-green: hsl(140, 90%, 55%);
+  --accent-yellow: hsl(50, 100%, 55%);
+  --accent-red: hsl(355, 95%, 60%);
+  --accent-red-hover: hsl(355, 95%, 50%);
+  --accent-gray: hsl(222, 12%, 28%);
+
+  /* Tipografia */
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+
+  /* Sombras Sólidas 2D (Estilo Flat / Neo-Brutalis) */
+  --shadow-flat-sm: 2px 2px 0px hsl(0, 0%, 0%);
+  --shadow-flat-md: 4px 4px 0px hsl(0, 0%, 0%);
+  --shadow-flat-lg: 6px 6px 0px hsl(0, 0%, 0%);
+  --shadow-hitl: 8px 8px 0px var(--accent-yellow);
+
+  /* Transições Padrão */
+  --transition-speed: 0.25s;
+  --transition-ease: cubic-bezier(0.16, 1, 0.3, 1); /* Animação fluida e premium */
+}
+
+/* Reset Básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar - Minimalista */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gray);
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL
+   ========================================================================== */
+.dashboard-container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-grow: 1;
+}
+
+/* ==========================================================================
+   CABEÇALHO & WIDGET DAILY BRIEFING
+   ========================================================================== */
+.dashboard-header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .dashboard-header {
+    grid-template-columns: 350px 1fr;
+  }
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--bg-card);
+  padding: 1rem;
+  border: 2px solid #000;
+  box-shadow: var(--shadow-flat-md);
+  border-radius: 4px;
+}
+
+.logo {
+  background-color: var(--accent-cyan);
+  color: #000;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.title-wrapper h1 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-green);
+  margin-top: 0.25rem;
+  letter-spacing: 0.5px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  position: relative;
+}
+
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  animation: pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* JD Daily Briefing Widget */
+.daily-briefing-widget {
+  background-color: var(--bg-card);
+  border: 2px solid #000;
+  box-shadow: var(--shadow-flat-md);
+  padding: 0.85rem 1.25rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+  min-height: 90px;
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.daily-briefing-widget .tag {
+  background-color: var(--accent-yellow);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid #000;
+}
+
+.char-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.briefing-content {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.briefing-content a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted var(--accent-cyan);
+  transition: color var(--transition-speed);
+}
+
+.briefing-content a:hover {
+  color: var(--accent-yellow);
+  border-bottom-color: var(--accent-yellow);
+}
+
+/* ==========================================================================
+   GRID DE TRABALHO
+   ========================================================================== */
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  flex-grow: 1;
+}
+
+@media (min-width: 1024px) {
+  .workspace-grid {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+/* Estilo Base dos Cards */
+.terminal-card, .editor-card {
+  background-color: var(--bg-card);
+  border: 2px solid #000;
+  box-shadow: var(--shadow-flat-lg);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 580px;
+}
+
+.card-header {
+  background-color: var(--bg-main);
+  border-bottom: 2px solid #000;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.header-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #000;
+}
+
+.dot.red { background-color: var(--accent-red); }
+.dot.yellow { background-color: var(--accent-yellow); }
+.dot.green { background-color: var(--accent-green); }
+
+.header-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   TERMINAL & CHAT DO AGENTE (COLUNA ESQUERDA)
+   ========================================================================== */
+.chat-history {
+  flex-grow: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--bg-card);
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 90%;
+  animation: messageFadeIn 0.3s var(--transition-ease);
+}
+
+@keyframes messageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message.jd-msg {
+  align-self: flex-start;
+}
+
+.message.user-msg {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.msg-sender {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  letter-spacing: 0.5px;
+}
+
+.message.user-msg .msg-sender {
+  color: var(--accent-yellow);
+}
+
+.msg-text {
+  background-color: var(--bg-input);
+  border: 1.5px solid #000;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-flat-sm);
+  white-space: pre-wrap;
+}
+
+.message.user-msg .msg-text {
+  background-color: var(--accent-gray);
+  border-color: #000;
+}
+
+/* Mensagem do Sistema */
+.message.system-msg {
+  align-self: center;
+  max-width: 100%;
+}
+
+.msg-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  background-color: transparent;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Form de Input do Terminal */
+.terminal-input-form {
+  border-top: 2px solid #000;
+  background-color: var(--bg-main);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.prompt-arrow {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.terminal-input-form input {
+  flex-grow: 1;
+  background-color: var(--bg-input);
+  border: 1.5px solid #000;
+  padding: 0.65rem 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color var(--transition-speed);
+}
+
+.terminal-input-form input:focus {
+  border-color: var(--accent-cyan);
+}
+
+/* Botão Enviar Estilo Flat */
+.send-btn {
+  background-color: var(--accent-cyan);
+  color: #000;
+  border: 2px solid #000;
+  padding: 0.65rem 1.25rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: var(--shadow-flat-sm);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.send-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000;
+}
+
+.send-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+/* ==========================================================================
+   EDITOR DE CÓDIGO (COLUNA DIREITA)
+   ========================================================================== */
+.editor-card .card-header {
+  padding: 0;
+  height: 44px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.tab-active {
+  background-color: var(--bg-card);
+  border-right: 2px solid #000;
+  border-top: 2px solid transparent;
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  height: calc(100% + 2px);
+  position: relative;
+  top: 2px;
+}
+
+.file-icon {
+  color: var(--accent-yellow);
+}
+
+.file-name {
+  font-weight: 500;
+}
+
+.language-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  background-color: var(--accent-gray);
+  color: var(--text-secondary);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid #000;
+  margin-right: 1rem;
+  margin-bottom: 0.65rem;
+  border-radius: 2px;
+}
+
+.code-container {
+  flex-grow: 1;
+  background-color: var(--bg-card);
+  padding: 1.25rem;
+  overflow: auto;
+  display: flex;
+}
+
+.code-container pre {
+  margin: 0;
+  width: 100%;
+}
+
+.code-display {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* Syntax Highlighting Simples via CSS Classes */
+.code-keyword { color: hsl(300, 85%, 65%); font-weight: 500; }
+.code-string { color: hsl(95, 75%, 60%); }
+.code-comment { color: var(--text-muted); font-style: italic; }
+.code-function { color: var(--accent-cyan); font-weight: 500; }
+.code-number { color: hsl(35, 100%, 60%); }
+
+/* ==========================================================================
+   MODAL HITL COM ANIMAÇÕES MODERNAS E ELEGANTES
+   ========================================================================== */
+dialog#hitl-dialog {
+  border: 3px solid #000;
+  border-radius: 4px;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  padding: 0;
+  box-shadow: var(--shadow-hitl);
+  outline: none;
+}
+
+/* Estilo do Backdrop NATIVO */
+dialog#hitl-dialog::backdrop {
+  background-color: rgba(6, 9, 15, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.hitl-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hitl-header {
+  background-color: var(--accent-yellow);
+  color: #000;
+  padding: 1.25rem;
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hitl-alert-icon {
+  font-size: 1.5rem;
+}
+
+#hitl-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.hitl-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hitl-description {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.hitl-details-box {
+  background-color: var(--bg-main);
+  border: 2px solid #000;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: var(--shadow-flat-sm);
+}
+
+.details-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.details-cmd {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent-cyan);
+  word-break: break-all;
+  display: block;
+}
+
+.hitl-actions {
+  border-top: 2px solid #000;
+  padding: 1.25rem;
+  background-color: var(--bg-main);
+}
+
+.hitl-form-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 480px) {
+  .hitl-form-buttons {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.hitl-btn {
+  border: 2px solid #000;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: var(--shadow-flat-sm);
+  transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+}
+
+.reject-btn {
+  background-color: var(--accent-gray);
+  color: var(--text-primary);
+}
+
+.reject-btn:hover {
+  background-color: hsl(222, 10%, 35%);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000;
+}
+
+.reject-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+.approve-btn {
+  background-color: var(--accent-yellow);
+  color: #000;
+}
+
+.approve-btn:hover {
+  background-color: hsl(50, 100%, 48%);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000;
+}
+
+.approve-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+
+/* ==========================================================================
+   CSS MODERN CODES: ANIMAÇÃO DE ENTRADA/SAÍDA PARA DIALOG
+   Utilizando @starting-style e discrete transitions
+   ========================================================================== */
+
+/* 1. Estado Visível / Aberto */
+dialog#hitl-dialog[open] {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+
+  /* 2. Estado de partida da animação de entrada (dentro do open) */
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.95) translateY(12px);
+  }
+}
+
+/* 3. Estado Base (Fechado/Saída) */
+dialog#hitl-dialog {
+  opacity: 0;
+  transform: scale(0.95) translateY(12px);
+  
+  /* Transição de propriedades incluindo overlay e display */
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.25s;
+  transition-timing-function: var(--transition-ease);
+  transition-behavior: allow-discrete;
+}
+
+/* 4. Transição do Backdrop */
+dialog#hitl-dialog::backdrop {
+  background-color: rgba(6, 9, 15, 0);
+  backdrop-filter: blur(0px);
+  
+  transition:
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete,
+    background-color 0.25s ease-out,
+    backdrop-filter 0.25s ease-out;
+}
+
+dialog#hitl-dialog[open]::backdrop {
+  background-color: rgba(6, 9, 15, 0.85);
+  backdrop-filter: blur(4px);
+
+  @starting-style {
+    background-color: rgba(6, 9, 15, 0);
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* ==========================================================================
+   ACESSIBILIDADE: REDUCED MOTION SUPPORT
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  dialog#hitl-dialog,
+  dialog#hitl-dialog::backdrop,
+  .send-btn,
+  .hitl-btn {
+    transition-duration: 0.05s !important;
+    transform: none !important;
+  }
+  
+  @starting-style {
+    dialog#hitl-dialog[open] {
+      transform: none !important;
+    }
+  }
+
+  .pulse-dot::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Johnny Devv (JD) // Dashboard de Operações</title>
+  <!-- Google Fonts: Outfit para textos e Fira Code para o terminal/código -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Layout Principal do Dashboard -->
+  <main class="dashboard-container">
+    
+    <!-- Cabeçalho com o Status e o Daily IA Briefing (JD Briefing) -->
+    <header class="dashboard-header">
+      <div class="brand-section">
+        <div class="logo">JD</div>
+        <div class="title-wrapper">
+          <h1>Johnny Devv</h1>
+          <span class="status-indicator">
+            <span class="pulse-dot"></span>
+            HACKER MODE ACTIVE // ONLINE
+          </span>
+        </div>
+      </div>
+      
+      <!-- JD Daily Briefing Widget (Limitado a 300 caracteres com links clicáveis) -->
+      <div class="daily-briefing-widget">
+        <div class="widget-header">
+          <span class="tag">DAILY BRIEFING</span>
+          <span class="char-count" id="briefing-chars">0/300</span>
+        </div>
+        <p class="briefing-content" id="briefing-text">
+          Carregando briefing do dia...
+        </p>
+      </div>
+    </header>
+
+    <!-- Área de Trabalho de 2 Colunas -->
+    <section class="workspace-grid">
+      
+      <!-- Coluna Esquerda: Terminal de Operação / Chat com JD -->
+      <article class="terminal-card">
+        <div class="card-header">
+          <div class="header-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="header-title">jd_terminal.sh</span>
+        </div>
+        
+        <div class="chat-history" id="chat-history">
+          <!-- Mensagem inicial do Johnny Devv -->
+          <div class="message system-msg">
+            <div class="msg-meta">[SYSTEM]: Sessão inicializada. Johnny Devv (JD) pronto para codar.</div>
+          </div>
+          <div class="message jd-msg">
+            <div class="msg-sender">JD</div>
+            <div class="msg-text">Faaala! JD na área. Sou seu hacker de código ágil. Sem enrolação. Manda o que a gente precisa programar hoje e eu faço direto no terminal.</div>
+          </div>
+        </div>
+
+        <!-- Formulário de Input do Terminal -->
+        <form class="terminal-input-form" id="terminal-form">
+          <span class="prompt-arrow">&gt;</span>
+          <input type="text" id="terminal-input" placeholder="Solicitar criação de código, refatoração ou testes..." autocomplete="off" required>
+          <button type="submit" class="send-btn">EXECUTAR</button>
+        </form>
+      </article>
+
+      <!-- Coluna Direita: Editor de Código Lateral (Code Viewer) -->
+      <article class="editor-card">
+        <div class="card-header">
+          <div class="tab-active">
+            <span class="file-icon">⚡</span>
+            <span class="file-name" id="current-file-name">main.js</span>
+          </div>
+          <span class="language-badge" id="lang-badge">JAVASCRIPT</span>
+        </div>
+        
+        <div class="code-container">
+          <pre><code class="code-display" id="code-block">// Aguardando instruções do terminal...
+// O código gerado pelo JD será exibido aqui em tempo real.</code></pre>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- MODAL HITL (Human In The Loop) - Destaque Máximo de Decisão -->
+  <dialog id="hitl-dialog" closedby="any" aria-labelledby="hitl-title">
+    <div class="hitl-container">
+      <div class="hitl-header">
+        <span class="hitl-alert-icon">⚠️</span>
+        <h2 id="hitl-title">APROVAÇÃO HITL NECESSÁRIA</h2>
+      </div>
+      
+      <div class="hitl-content">
+        <p class="hitl-description" id="hitl-desc">
+          O agente JD solicita permissão para realizar uma alteração crítica de código ou executar uma rotina no workspace.
+        </p>
+        
+        <!-- Detalhes da Ação Proposta -->
+        <div class="hitl-details-box">
+          <div class="details-label">Ação Proposta:</div>
+          <code class="details-cmd" id="hitl-command">npm run deploy --force</code>
+        </div>
+      </div>
+
+      <div class="hitl-actions">
+        <!-- Form method="dialog" faz com que o botão feche o modal nativamente -->
+        <form method="dialog" class="hitl-form-buttons">
+          <button type="button" class="hitl-btn reject-btn" id="hitl-reject-btn">RECUSAR ALTERAÇÃO</button>
+          <button type="button" class="hitl-btn approve-btn" id="hitl-approve-btn">APROVAR E EXECUTAR</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Script da Lógica da Interface -->
+  <script src="app.js"></script>
+</body>
+</html>
